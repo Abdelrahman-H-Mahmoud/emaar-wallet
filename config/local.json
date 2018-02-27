@@ -1,0 +1,4 @@
+{
+    "databaseConnection":"mongodb://localhost/emaar-wallet",
+    "secret":"emaarWallet"
+}

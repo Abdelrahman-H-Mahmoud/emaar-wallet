@@ -1,0 +1,4 @@
+{
+    "databaseConnection":"mongodb://abdo:test@ds249798.mlab.com:49798/emaar-wallet-preprod",
+    "secret":"emaar-Wallet"
+}
