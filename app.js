@@ -24,10 +24,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/api/admin', require('./routes/admin'));
-app.use('/api/user', require('./routes/user'));
-app.use('/api', require('./routes/api'));
-app.use('/api/statement',require('./routes/statement'));
+let loadRoutes=require('./helper/routes');
+loadRoutes(app);
 
 app.listen(config.port, () => {
     console.log(`app is running at port ${config.port}`);
