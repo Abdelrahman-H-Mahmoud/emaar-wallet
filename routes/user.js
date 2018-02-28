@@ -13,6 +13,7 @@ router.route('/authenticate').post(passport.authenticate('local'), (req, res, ne
         "name":req.user.name,
         "role":req.user.role,
         "isFirstTime":req.user.isFirstTime,
+        "amount":req.user.intialAmount,
         "date":Date.now()
     };
     let token = jwt.sign(user, config.secret, { expiresIn: 24 * 60 * 60 });

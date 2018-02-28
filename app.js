@@ -1,16 +1,12 @@
 const app = require('express')();
-const mongose = require('mongoose');
 let config = require('./config/env-config');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
-mongose.Promise = global.Promise;
-mongose.connect(config.databaseConnection).then(() => {
-    console.log('database connected');
-}).catch(err => {
-    console.log(err);
-});
-require('./models/user');
+
+
+const connectToDb=require('./helper/dbModules');
+connectToDb();
 
 require('./config/passport')(passport);
 
@@ -27,8 +23,6 @@ app.use(session({
 //passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
-
-
 
 app.use('/api/admin', require('./routes/admin'));
 app.use('/api/user', require('./routes/user'));

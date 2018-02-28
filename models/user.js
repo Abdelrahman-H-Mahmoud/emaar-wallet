@@ -1,29 +1,47 @@
-const mongoose=require('mongoose');
-const Schema=mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-let UserSchema=new Schema({
-    name:String,
-    password:String,
-    email:String,
-    isFirstTime:Boolean,
-    transferredMoney:[{
-        to:{
-            id:String,
-            name:String,
+let UserSchema = new Schema({
+    name: String,
+    password: String,
+    email: String,
+    isFirstTime: Boolean,
+    transferredMoney: [{
+        to: {
+            id: String,
+            name: String,
         },
-        amount:Number,
-        date:Date
+        amount: Number,
+        date: Date
     }],
-    receivedMoney:[{
-        from:{
-            id:String,
-            name:String,
+    receivedMoney: [{
+        from: {
+            id: String,
+            name: String,
         },
-        amount:Number,
-        date:Date
+        amount: Number,
+        date: Date
     }],
-    amount:Number,
-    role:String
+    amount: [{
+        category: {
+            id: String,
+            name: String,
+        },
+        date: {
+            type: Date,
+            default: Date.now
+        },
+        money: Number
+    }],
+    checkout: [{
+        category: {
+            id: String,
+            name: String
+        },
+        money: Number
+    }],
+    intialAmount: Number,
+    role: String
 });
 
-mongoose.model('users',UserSchema);
+mongoose.model('users', UserSchema);
