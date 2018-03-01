@@ -51,7 +51,7 @@ router.route('/changepassword').post(checkAuthentication,(req,res)=>{
                 })
             }
             else{
-                res.status=401;
+                res.status(401);
                 res.json({msg:'invalid password',code:401});
             }
                 

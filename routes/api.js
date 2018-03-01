@@ -30,7 +30,7 @@ router.route('/transfer').post((req, res) => {
     let body = req.body;
     user.findById(body.from).then(fromUser => {
         if (body.amount > fromUser.intialAmount) {
-            res.status = 400;
+            res.status(400);
             res.send('not enough money');
         };
         fromUser.intialAmount -= body.amount;
@@ -101,11 +101,11 @@ router.route('/checkout').post((req, res) => {
         let category = getCategory(body.category.id, item.amount);
         console.log(category);
         if (!category) {
-            res.status = 401;
+            res.status(401)
             return res.json({ msg: "category not found", code: 401 });
         }
         if (category.money < body.amount) {
-            res.status = 401;
+            res.status(401)  ;
             return res.json({ msg: "not enough money", code: 401 });
         }
         else {
