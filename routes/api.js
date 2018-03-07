@@ -26,50 +26,6 @@ router.route('/getCategories').get((req, res) => {
     });
 });
 
-router.route('/transfer').post((req, res) => {
-    let body = req.body;
-    user.findById(body.from).then(fromUser => {
-        if (body.amount > fromUser.intialAmount) {
-            res.status(400);
-            res.send('not enough money');
-        };
-        fromUser.intialAmount -= body.amount;
-
-        user.findById(body.to).then(toUser => {
-            toUser.intialAmount += body.amount;
-            fromUser.transferredMoney.push({
-                to: {
-                    id: toUser.id,
-                    name: toUser.name,
-                },
-                amount: body.amount,
-                date: body.date || Date.now()
-            });
-            toUser.receivedMoney.push({
-                from: {
-                    id: fromUser.id,
-                    name: fromUser.name,
-                },
-                amount: body.amount,
-                date: body.date || Date.now()
-            });
-            fromUser.save().then(updatedFromUser => {
-                toUser.save().then(updatedtoUser => {
-                    res.sendStatus(200);
-                }).catch(err => {
-                    console.log(err);
-                })
-            }).catch(err => {
-                console.log(err);
-            });
-        }).catch(err => {
-            console.log(err);
-        });
-    }).catch(err => {
-        console.log(err);
-    });
-});
-
 router.route('/add/money').post((req, res) => {
     let body = req.body;
     user.findById(body.id).then(item => {

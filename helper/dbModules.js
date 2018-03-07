@@ -9,4 +9,5 @@ module.exports = function connectToDb() {
     });
     require('../models/user');
     require('../models/category');
+    require('../models/transaction');
 }
