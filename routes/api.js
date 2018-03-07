@@ -74,16 +74,10 @@ router.route('/add/money').post((req, res) => {
     let body = req.body;
     user.findById(body.id).then(item => {
         item.intialAmount += body.amount;
-
-        let category = getCategory(body.category.id, item.amount);
-        if (!category) {
-            item.amount.push({
-                category: body.category,
-                money: body.amount
-            });
-        }
-        else
-            category.money += body.amount;
+        item.amount.push({
+            category: body.category,
+            money: body.amount
+        });
         item.save().then(updatedItem => {
             res.json({ msg: 'money added', code: 200 });
         }).catch(err => {
@@ -98,19 +92,22 @@ router.route('/checkout').post((req, res) => {
     let body = req.body;
     user.findById(body.id).then(item => {
 
-        let category = getCategory(body.category.id, item.amount);
-        console.log(category);
+        let sum = getCategorySum(body.category.id, item.amount);
         if (!category) {
             res.status(401)
             return res.json({ msg: "category not found", code: 401 });
         }
-        if (category.money < body.amount) {
-            res.status(401)  ;
+        if (sum < body.amount) {
+            res.status(401);
             return res.json({ msg: "not enough money", code: 401 });
         }
         else {
             item.intialAmount -= body.amount;
             category.money -= body.amount;
+            item.checkout.push({
+                category: body.category,
+                money: body.amount
+            });
         }
 
 
@@ -125,14 +122,18 @@ router.route('/checkout').post((req, res) => {
 });
 
 
-function getCategory(categoryId, userCategoriesAmount) {
-    console.log(userCategoriesAmount);
-    let category = _.find(userCategoriesAmount, item => {
+function getCategorySum(categoryId, userCategoriesAmount) {
+    let categories = _.filter(userCategoriesAmount, item => {
         return item.category.id == categoryId
+    }).map(item=>{
+        return item.money;
     });
-    console.log(category);
+    
+    let sum=categories.reduce((a,b)=>{
+        return a+b
+    },0);
 
-    return category;
+    return sum;
 }
 
 module.exports = router;

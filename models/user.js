@@ -38,6 +38,10 @@ let UserSchema = new Schema({
             id: String,
             name: String
         },
+        date: {
+            type: Date,
+            default: Date.now
+        },
         money: Number
     }],
     intialAmount: Number,
