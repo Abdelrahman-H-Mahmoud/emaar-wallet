@@ -6,22 +6,6 @@ let UserSchema = new Schema({
     password: String,
     email: String,
     isFirstTime: Boolean,
-    transferredMoney: [{
-        to: {
-            id: String,
-            name: String,
-        },
-        amount: Number,
-        date: Date
-    }],
-    receivedMoney: [{
-        from: {
-            id: String,
-            name: String,
-        },
-        amount: Number,
-        date: Date
-    }],
     amount: [{
         category: {
             id: String,
