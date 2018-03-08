@@ -6,6 +6,7 @@ const { checkAuthentication } = require('../helper/auth');
 const mongoose = require('mongoose');
 const user = mongoose.model('users');
 const category = mongoose.model('category');
+const getCategorySum=require('../helper/categorySum');
 const _ = require('lodash');
 
 router.use(checkAuthentication);
@@ -76,20 +77,5 @@ router.route('/checkout').post((req, res) => {
         console.log(err);
     });
 });
-
-
-function getCategorySum(categoryId, userCategoriesAmount) {
-    let categories = _.filter(userCategoriesAmount, item => {
-        return item.category.id == categoryId
-    }).map(item=>{
-        return item.money;
-    });
-    
-    let sum=categories.reduce((a,b)=>{
-        return a+b
-    },0);
-
-    return sum;
-}
 
 module.exports = router;
