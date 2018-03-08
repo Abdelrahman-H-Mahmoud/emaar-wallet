@@ -1,3 +1,4 @@
+const _ = require('lodash');
 let getCategorySum= function getCategorySum(categoryId, userCategoriesAmount) {
     let categories = _.filter(userCategoriesAmount, item => {
         return item.category.id == categoryId

@@ -4,7 +4,7 @@
   "description": "a virtual wallet to control the flow and the transfer of money",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
