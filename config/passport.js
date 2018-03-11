@@ -9,13 +9,13 @@ module.exports = function (passport) {
     }, (email, password, done) => {
         User.findOne({ email: email }).then(user => {
             if (!user)
-                return done({ error: "invalid username or email" }, false, { message: 'no user found' });
+                return done({ error: "invalid email or password" }, false, { message: 'no user found' });
             bcrypt.compare(password, user.password).then(isMatch => {
                 if (isMatch) {
                     return done(null, user)
                 }
                 else
-                    return done({ error: "invalid username or email" }, false, { message: 'invalid email or password' });
+                    return done({ error: "invalid email or password" }, false, { message: 'invalid email or password' });
             }).catch(err => {
                 done(err,null);
             })
