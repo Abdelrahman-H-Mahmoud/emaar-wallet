@@ -1,4 +1,4 @@
 {
     "databaseConnection":"mongodb://<username>:<password>@ds249798.mlab.com:49798/emaar-wallet-preprod",
-    "secret":"emaar-Wallet"
+    "secret":""
 }
