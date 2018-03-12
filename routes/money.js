@@ -68,14 +68,15 @@ router.route('/status/:id').get((req, res) => {
             .map((value, key) => {
                 return { category: key, totalamount: _.sumBy(value, 'money') }
             }).value();
-        mapResult(result);
+        mapResultToObject(result);
+        calculateNet(result,user.checkout);
         res.json(result);
     }).catch(err => {
         console.log(err);
     });
 });
 
-function mapResult(result){
+function mapResultToObject(result){
     _.forEach(result,(item)=>{
         let obj={};
         let properties=item.category.split(',');
@@ -84,6 +85,18 @@ function mapResult(result){
             obj[keyValue[0].replace(/[\s,{,]/g,'')]=keyValue[1].replace(/[},']/g,'').trim();
         });
         item.category=obj;
+    });
+}
+
+function calculateNet(result,checkout){
+    _(result).forEach(item=>{
+        let data=_(checkout).filter(x=>x.category.id==item.category.id).value();
+        if(data){
+            let sum=_(data).sumBy((obj)=>{
+                return obj.money;
+            });
+            item.totalamount-=sum;
+        }
     });
 }
 module.exports = router;
