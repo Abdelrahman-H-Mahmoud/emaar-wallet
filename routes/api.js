@@ -27,54 +27,5 @@ router.route('/getCategories').get((req, res) => {
     });
 });
 
-router.route('/add/money').post((req, res) => {
-    let body = req.body;
-    user.findById(body.id).then(item => {
-        item.intialAmount += body.amount;
-        item.amount.push({
-            category: body.category,
-            money: body.amount
-        });
-        item.save().then(updatedItem => {
-            res.json({ msg: 'money added', code: 200 });
-        }).catch(err => {
-            console.log(err);
-        })
-    }).catch(err => {
-        console.log(err);
-    });
-});
-
-router.route('/checkout').post((req, res) => {
-    let body = req.body;
-    user.findById(body.id).then(item => {
-        let sum = getCategorySum(body.category.id, item.amount);
-
-        if (!sum || isNaN(sum)) {
-            res.status(400)
-            return res.json({ msg: "category not found", code: 400 });
-        }
-        if (sum < body.amount) {
-            res.status(400);
-            return res.json({ msg: "not enough money", code: 400 });
-        }
-        else {
-            item.intialAmount -= body.amount;
-            item.checkout.push({
-                category: body.category,
-                money: body.amount
-            });
-        }
-
-
-        item.save().then(updatedItem => {
-            res.json({ msg: 'money checkedout', code: 200 });
-        }).catch(err => {
-            console.log(err);
-        })
-    }).catch(err => {
-        console.log(err);
-    });
-});
 
 module.exports = router;
